@@ -5,12 +5,14 @@ import dayjs from "dayjs";
 import { dateRanges } from "./utils";
 import CalendarAction from "./CalendarAction";
 import Calendar from "./Calendar";
+import { useMediaQuery } from "@mantine/hooks";
 
 function App() {
   const [fromValue, setFromValue] = useState<Date | null>(
     dayjs().startOf("day").toDate()
   );
   const [toValue, setToValue] = useState<Date | null>(new Date());
+  const breakpoint = useMediaQuery("(max-width: 600px)");
 
   return (
     <>
@@ -28,9 +30,9 @@ function App() {
             />
           ))}
         </aside>
-        <Divider orientation="vertical" />
+        <Divider orientation={breakpoint ? "horizontal" : "vertical"} />
 
-        <Tabs defaultValue="start-date">
+        <Tabs defaultValue="start-date" className="calendar">
           <Tabs.List>
             <Tabs.Tab value="start-date">Start date</Tabs.Tab>
             <Tabs.Tab value="end-date">End date</Tabs.Tab>
