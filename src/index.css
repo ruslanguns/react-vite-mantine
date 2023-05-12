@@ -21,3 +21,22 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.App {
+  margin: 1rem;
+  padding-inline: 1rem;
+  border: 1px solid lightgray;
+  border-radius: 0.5rem;
+}
+
+.quick-options {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 0.3rem;
+}
+
+.result {
+  margin: 1rem;
+}

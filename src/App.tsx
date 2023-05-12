@@ -1,11 +1,55 @@
-import reactLogo from "./assets/react.svg";
-import { Text } from "@mantine/core";
+import { Divider, Group, Text, Tabs } from "@mantine/core";
+import { useState } from "react";
+import dayjs from "dayjs";
+
+import { dateRanges } from "./utils";
+import CalendarAction from "./CalendarAction";
+import Calendar from "./Calendar";
 
 function App() {
+  const [fromValue, setFromValue] = useState<Date | null>(
+    dayjs().startOf("day").toDate()
+  );
+  const [toValue, setToValue] = useState<Date | null>(new Date());
+
   return (
-    <div className="App">
-      <Text>Welcome to Mantine!</Text>
-    </div>
+    <>
+      <Group className="App">
+        <aside className="quick-options">
+          <Text size="sm">Quick options</Text>
+
+          {dateRanges.map(({ label, onClick }) => (
+            <CalendarAction
+              {...{
+                key: label,
+                label,
+                onClick: () => onClick(setFromValue, setToValue),
+              }}
+            />
+          ))}
+        </aside>
+        <Divider orientation="vertical" />
+
+        <Tabs defaultValue="start-date">
+          <Tabs.List>
+            <Tabs.Tab value="start-date">Start date</Tabs.Tab>
+            <Tabs.Tab value="end-date">End date</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="start-date" py="xs">
+            <Calendar {...{ value: fromValue, onChange: setFromValue }} />
+          </Tabs.Panel>
+          <Tabs.Panel value="end-date" pt="xs">
+            <Calendar {...{ value: toValue, onChange: setToValue }} />
+          </Tabs.Panel>
+        </Tabs>
+      </Group>
+
+      <div className="result">
+        <Text>Result:</Text>
+        <pre>{JSON.stringify({ from: fromValue, to: toValue }, null, 2)}</pre>
+      </div>
+    </>
   );
 }
 
