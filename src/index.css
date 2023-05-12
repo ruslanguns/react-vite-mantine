@@ -27,11 +27,16 @@ body {
   padding-inline: 1rem;
   border: 1px solid lightgray;
   border-radius: 0.5rem;
+  display: flex;
+}
+
+.calendar {
+  order: 1;
 }
 
 .quick-options {
-  margin-top: 0.5rem;
   display: flex;
+  margin-top: 0.5rem;
   flex-direction: column;
   align-self: flex-start;
   gap: 0.3rem;
@@ -39,4 +44,15 @@ body {
 
 .result {
   margin: 1rem;
+}
+
+@media only screen and (max-width: 650px) {
+  .App {
+    max-width: 20.5rem;
+  }
+  .quick-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 }
