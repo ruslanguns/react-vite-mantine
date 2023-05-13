@@ -1,8 +1,9 @@
-import { DateInput, DatePicker, DatePickerValue } from "@mantine/dates";
+import { Calendar as CalendarComponent, DateInput } from "@mantine/dates";
+import dayjs from "dayjs";
 
 type CalendarProps = {
   value: Date | null;
-  onChange?(value: DatePickerValue<"default">): void;
+  onChange?(value: Date): void;
 };
 
 export default function Calendar({ value, onChange }: CalendarProps) {
@@ -11,12 +12,19 @@ export default function Calendar({ value, onChange }: CalendarProps) {
       <DateInput
         {...{
           popoverProps: { opened: false },
-          valueFormat: "MM/DD/YYYY HH:mm:ss",
           value,
           onChange,
+          valueFormat: "YYYY-MM-DDTHH:mm:ss.SSSZ",
         }}
       />
-      <DatePicker {...{ value, onChange }} />
+      <CalendarComponent
+        {...{
+          getDayProps: (date) => ({
+            selected: dayjs(value).isSame(date, "date"),
+            onClick: () => onChange && onChange(date),
+          }),
+        }}
+      />
     </>
   );
 }
