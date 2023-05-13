@@ -1,25 +1,27 @@
-import { Divider, Group, Text, Tabs } from "@mantine/core";
+import { Divider, Text, Tabs } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import dayjs from "dayjs";
 
 import { dateRanges } from "./utils";
 import CalendarAction from "./CalendarAction";
 import Calendar from "./Calendar";
-import { useMediaQuery } from "@mantine/hooks";
 
-function App() {
+export default function App() {
   const [fromValue, setFromValue] = useState<Date | null>(
     dayjs().startOf("day").toDate()
   );
   const [toValue, setToValue] = useState<Date | null>(new Date());
-  const breakpoint = useMediaQuery("(max-width: 600px)");
+  const breakpoint = useMediaQuery("(max-width: 450px)");
 
   return (
-    <>
-      <Group className="App">
-        <aside className="quick-options">
-          <Text size="sm">Quick options</Text>
+    <div className="App">
+      <aside>
+        <Text className="options-title" size="sm">
+          Quick options
+        </Text>
 
+        <div className="options">
           {dateRanges.map(({ label, onClick }) => (
             <CalendarAction
               {...{
@@ -29,10 +31,13 @@ function App() {
               }}
             />
           ))}
-        </aside>
-        <Divider orientation={breakpoint ? "horizontal" : "vertical"} />
+        </div>
+      </aside>
 
-        <Tabs defaultValue="start-date" className="calendar">
+      <Divider className="divider" orientation="vertical" hidden={breakpoint} />
+
+      <div className="calendar">
+        <Tabs defaultValue="start-date">
           <Tabs.List>
             <Tabs.Tab value="start-date">Start date</Tabs.Tab>
             <Tabs.Tab value="end-date">End date</Tabs.Tab>
@@ -41,18 +46,12 @@ function App() {
           <Tabs.Panel value="start-date" py="xs">
             <Calendar {...{ value: fromValue, onChange: setFromValue }} />
           </Tabs.Panel>
+
           <Tabs.Panel value="end-date" pt="xs">
             <Calendar {...{ value: toValue, onChange: setToValue }} />
           </Tabs.Panel>
         </Tabs>
-      </Group>
-
-      <div className="result">
-        <Text>Result:</Text>
-        <pre>{JSON.stringify({ from: fromValue, to: toValue }, null, 2)}</pre>
       </div>
-    </>
+    </div>
   );
 }
-
-export default App;
