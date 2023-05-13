@@ -25,16 +25,16 @@ body {
 .App {
   padding-inline: 1rem;
   margin: 1rem;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
   display: flex;
   border: 1px solid lightgray;
   border-radius: 0.5rem;
-  align-items: center;
 }
 
 .App aside {
   order: 1;
+  padding-block: 0.5rem;
 }
 
 .App .options-title {
@@ -63,13 +63,18 @@ body {
     max-width: 19rem;
     padding-block: 0.5rem;
   }
+
+  .divider {
+    display: none;
+  }
+
   .options {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   .App aside {
-    padding-top: 0;
+    align-self: stretch;
     order: 2;
   }
   .App .calendar {
