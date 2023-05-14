@@ -1,9 +1,5 @@
-import {
-  DateInput,
-  Calendar as CalendarComponent,
-  DateValue,
-} from "@mantine/dates";
-import dayjs from "dayjs";
+import { DateInput, DatePicker, DateValue } from "@mantine/dates";
+import { useState } from "react";
 
 type CalendarProps = {
   value: Date | null;
@@ -11,30 +7,29 @@ type CalendarProps = {
 };
 
 export default function Calendar({ value, onChange }: CalendarProps) {
+  const [date, setDate] = useState<Date | undefined>();
   return (
-    <div style={{ position: "relative" }}>
+    <>
       <DateInput
         {...{
+          date,
+          defaultDate: value ?? undefined,
+          onChange,
+          onDateChange: setDate,
           popoverProps: { opened: false },
           value,
-          valueFormat: "YYYY-MM-DD HH:mm",
-          onChange: (dateValue) => {
-            if (!onChange) return;
-            onChange(dateValue);
-          },
+          valueFormat: "YYYY-MM-DD hh:mm:ss A",
         }}
       />
-      <CalendarComponent
+      <DatePicker
         {...{
-          getDayProps: (date) => ({
-            selected: dayjs(value).isSame(date, "date"),
-            onClick: () => onChange && onChange(date),
-          }),
-          date: value ?? undefined,
-          value,
+          date,
+          defaultDate: value ?? undefined,
           onChange,
+          onDateChange: setDate,
+          value,
         }}
       />
-    </div>
+    </>
   );
 }
