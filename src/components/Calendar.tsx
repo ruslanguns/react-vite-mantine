@@ -1,28 +1,33 @@
-import { Calendar as CalendarComponent, DateInput } from "@mantine/dates";
-import dayjs from "dayjs";
+import { DateInput, DatePicker, DateValue } from "@mantine/dates";
+import { useState } from "react";
 
 type CalendarProps = {
   value: Date | null;
-  onChange?(value: Date): void;
+  onChange?(value: DateValue): void;
 };
 
 export default function Calendar({ value, onChange }: CalendarProps) {
+  const [date, setDate] = useState<Date | undefined>();
   return (
     <>
       <DateInput
         {...{
+          date,
+          defaultDate: value ?? undefined,
+          onChange,
+          onDateChange: setDate,
           popoverProps: { opened: false },
           value,
-          onChange,
-          valueFormat: "YYYY-MM-DDTHH:mm:ss.SSSZ",
+          valueFormat: "YYYY-MM-DD hh:mm:ss A",
         }}
       />
-      <CalendarComponent
+      <DatePicker
         {...{
-          getDayProps: (date) => ({
-            selected: dayjs(value).isSame(date, "date"),
-            onClick: () => onChange && onChange(date),
-          }),
+          date,
+          defaultDate: value ?? undefined,
+          onChange,
+          onDateChange: setDate,
+          value,
         }}
       />
     </>
